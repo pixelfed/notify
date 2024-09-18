@@ -1,9 +1,9 @@
 {
-    "name": "laravel/laravel",
+    "name": "pixelfed/notify",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
-    "license": "MIT",
+    "description": "Pixelfed Push Notification Proxy.",
+    "keywords": ["laravel", "framework", "pixelfed", "fediverse", "activitypub", "push-notifications"],
+    "license": "AGPL",
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.9",
