@@ -13,6 +13,15 @@ class InstanceService
 {
     const CACHE_NODEINFO_KEY = 'pn:services:instance:nodeinfo:';
 
+    const CACHE_SECRET_KEY = 'pn:services:instance:secret_keys';
+
+    public static function getKeys()
+    {
+        return Cache::remember(self::CACHE_SECRET_KEY, 86400, function () {
+            return Instance::whereNotNull('secret')->whereIsSupported(true)->whereIsAllowed(true)->pluck('secret')->toArray();
+        });
+    }
+
     public static function checkServerSupport($domain = false)
     {
         if (! $domain || strlen($domain) > 80) {
