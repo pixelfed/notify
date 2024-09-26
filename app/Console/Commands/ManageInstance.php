@@ -80,6 +80,7 @@ class ManageInstance extends Command
 
         $instance->secret = InstanceService::keyGenerator($instance);
         $instance->save();
+        InstanceService::clearKeys();
 
         $this->info('Successfully created instance!');
         $this->info('Secret:');
@@ -156,6 +157,7 @@ class ManageInstance extends Command
             case 'Reset Secret':
                 $instance->secret = InstanceService::keyGenerator($instance);
                 $instance->save();
+                InstanceService::clearKeys();
                 $this->info('New Secret:');
                 $this->info($instance->secret);
                 break;

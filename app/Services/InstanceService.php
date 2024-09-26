@@ -22,6 +22,13 @@ class InstanceService
         });
     }
 
+    public static function clearKeys()
+    {
+        Cache::forget(self::CACHE_SECRET_KEY);
+
+        return self::getKeys();
+    }
+
     public static function checkServerSupport($domain = false)
     {
         if (! $domain || strlen($domain) > 80) {
