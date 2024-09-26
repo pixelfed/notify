@@ -14,9 +14,9 @@ return [
     'expo_token' => env('PN_EXPO_TOKEN', false),
 
     // max is 100, but we'll halve that for now
-    'expo_batch_size' => env('PN_EXPO_BATCH_SIZE', 2),
+    'expo_batch_size' => env('PN_EXPO_BATCH_SIZE', 100),
     // max is 6, but we'll halve that for now
-    'expo_max_req_batch' => env('PN_EXPO_MAX_REQ_BATCH', 3),
+    'expo_max_req_batch' => env('PN_EXPO_MAX_REQ_BATCH', 1),
     // set delivery ttl, default is 2 weeks
     'expo_ttl' => env('PN_EXPO_TTL', 1209600),
     // set delivery priority
