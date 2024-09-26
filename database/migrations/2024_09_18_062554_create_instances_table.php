@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('secret')->nullable()->index();
             $table->json('ips')->nullable();
             $table->boolean('is_supported')->default(false)->index();
-            $table->boolean('is_allowed')->default(true)->index();
+            $table->boolean('is_allowed')->default(false)->index();
             $table->timestamp('software_last_checked_at')->nullable();
             $table->timestamp('instance_last_checked_at')->nullable();
             $table->timestamps();
