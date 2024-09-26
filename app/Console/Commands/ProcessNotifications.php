@@ -30,6 +30,12 @@ class ProcessNotifications extends Command
      */
     public function handle()
     {
+        $token = config('custom.expo_token');
+        if (! $token) {
+            $this->error('Expo auth token not set!');
+
+            return;
+        }
         $batchSize = config('custom.expo_batch_size', 100);
         $maxRequestsPerRun = config('custom.expo_max_req_batch', 3);
         $requestsMade = 0;
