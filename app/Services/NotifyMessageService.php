@@ -12,6 +12,10 @@ class NotifyMessageService
             return 'You have a new notification';
         }
 
+        if (strpos(trim($actor), ' ') !== false) {
+            return 'You have a new notification';
+        }
+
         if (strlen($actor) > self::ACTOR_MAX_LENGTH) {
             $actor = substr($actor, 0, (self::ACTOR_MAX_LENGTH - 3)).'..';
         }
