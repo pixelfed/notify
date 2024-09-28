@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Services\InstanceService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RelayV1Request extends FormRequest
@@ -11,7 +12,12 @@ class RelayV1Request extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $apiKey = $this->bearerToken();
+        if (! $apiKey) {
+            return false;
+        }
+
+        return in_array($apiKey, InstanceService::getKeys(), true);
     }
 
     /**
@@ -22,6 +28,7 @@ class RelayV1Request extends FormRequest
     public function rules(): array
     {
         return [
+            'token' => 'required|string|starts_with:Expo',
             'type' => 'required|string|in:new_follower,like,comment,share',
             'actor' => 'sometimes|string',
         ];
