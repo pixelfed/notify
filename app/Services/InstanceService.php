@@ -15,6 +15,8 @@ class InstanceService
 
     const CACHE_SECRET_KEY = 'pn:services:instance:secret_keys';
 
+    const CACHE_DOMAINS_KEY = 'pn:services:instance:active-domains';
+
     public static function getKeys()
     {
         return Cache::remember(self::CACHE_SECRET_KEY, 86400, function () {
@@ -27,6 +29,13 @@ class InstanceService
         Cache::forget(self::CACHE_SECRET_KEY);
 
         return self::getKeys();
+    }
+
+    public static function getActiveDomains()
+    {
+        return Cache::remember(self::CACHE_DOMAINS_KEY, 86400, function () {
+            return Instance::whereIsSupported(true)->whereIsAllowed(true)->pluck('domain')->toArray();
+        });
     }
 
     public static function checkServerSupport($domain = false)
