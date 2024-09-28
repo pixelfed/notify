@@ -9,7 +9,7 @@ class InstanceController extends Controller
 {
     public function checkInstance(CheckInstanceRequest $request)
     {
-        if (! $request->has('key')) {
+        if (! $request->hasHeader('X-PIXELFED-API')) {
             return ['active' => false];
         }
 
