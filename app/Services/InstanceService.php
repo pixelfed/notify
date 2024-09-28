@@ -31,8 +31,12 @@ class InstanceService
         return self::getKeys();
     }
 
-    public static function getActiveDomains()
+    public static function getActiveDomains($flush = false)
     {
+        if ($flush) {
+            Cache::forget(self::CACHE_DOMAINS_KEY);
+        }
+
         return Cache::remember(self::CACHE_DOMAINS_KEY, 86400, function () {
             return Instance::whereIsSupported(true)->whereIsAllowed(true)->pluck('domain')->toArray();
         });

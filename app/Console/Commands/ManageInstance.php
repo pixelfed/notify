@@ -81,6 +81,7 @@ class ManageInstance extends Command
         $instance->secret = InstanceService::keyGenerator($instance);
         $instance->save();
         InstanceService::clearKeys();
+        InstanceService::getActiveDomains(true);
 
         $this->info('Successfully created instance!');
         $this->info('Secret:');
@@ -147,17 +148,20 @@ class ManageInstance extends Command
             case 'Toggle Allowed':
                 $instance->is_allowed = $instance->is_allowed ? false : true;
                 $instance->save();
+                InstanceService::getActiveDomains(true);
                 break;
 
             case 'Toggle Supported':
                 $instance->is_supported = $instance->is_supported ? false : true;
                 $instance->save();
+                InstanceService::getActiveDomains(true);
                 break;
 
             case 'Reset Secret':
                 $instance->secret = InstanceService::keyGenerator($instance);
                 $instance->save();
                 InstanceService::clearKeys();
+                InstanceService::getActiveDomains(true);
                 $this->info('New Secret:');
                 $this->info($instance->secret);
                 break;
