@@ -23,6 +23,7 @@ class CheckInstanceRequest extends FormRequest
     {
         return [
             'domain' => 'required',
+            'key' => 'sometimes|string|min:45|max:45|starts_with:v1',
         ];
     }
 }
