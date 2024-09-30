@@ -29,7 +29,7 @@ class RelayV1Request extends FormRequest
     {
         return [
             'token' => 'required|string|starts_with:Expo',
-            'type' => 'required|string|in:new_follower,like,comment,share',
+            'type' => 'required|string|in:follow,like,comment,mention',
             'actor' => 'sometimes|string',
         ];
     }

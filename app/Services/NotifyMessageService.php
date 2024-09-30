@@ -25,8 +25,8 @@ class NotifyMessageService
         }
 
         switch ($type) {
-            case 'new_follower':
-                return self::isNewFollower($actor);
+            case 'follow':
+                return self::isFollow($actor);
                 break;
 
             case 'like':
@@ -35,6 +35,10 @@ class NotifyMessageService
 
             case 'comment':
                 return self::isComment($actor);
+                break;
+
+            case 'mention':
+                return self::isMention($actor);
                 break;
 
             case 'share':
@@ -47,7 +51,7 @@ class NotifyMessageService
         }
     }
 
-    public static function isNewFollower($actor)
+    public static function isFollow($actor)
     {
         return "$actor started following you";
     }
@@ -60,6 +64,11 @@ class NotifyMessageService
     public static function isComment($actor)
     {
         return "$actor commented on your post";
+    }
+
+    public static function isMention($actor)
+    {
+        return "$actor mentioned you";
     }
 
     public static function isShare($actor)
