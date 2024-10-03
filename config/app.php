@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Pixelfed Notify'),
+    'name' => 'push.pixelfed.net',
 
     /*
     |--------------------------------------------------------------------------
