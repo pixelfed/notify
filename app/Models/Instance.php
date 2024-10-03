@@ -13,6 +13,6 @@ class Instance extends Model
 
     public function getAdminUrl()
     {
-        return 'https://' . $this->domain . '/i/admin/push-gateway?newKey=' . base64_encode($this->secret);
+        return 'https://'.$this->domain.'/i/admin/push-gateway?newKey='.base64_encode($this->secret);
     }
 }

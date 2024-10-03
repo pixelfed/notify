@@ -3,8 +3,6 @@
 
 We have approved your application for push.pixelfed.net gateway access.
 
-Click this button to add the Gateway API key to your admin dashboard.
-
 <x-mail::button :url="$instance->getAdminUrl()">
 Enable Push Notifications
 </x-mail::button>
@@ -14,5 +12,5 @@ Enable Push Notifications
 <small>Please do not share your API key with anyone.</small>
 
 Thanks,<br>
-{{ config('app.name') }}
+The Pixelfed Team
 </x-mail::message>
