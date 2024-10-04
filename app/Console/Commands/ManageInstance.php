@@ -5,7 +5,8 @@ namespace App\Console\Commands;
 use App\Models\Instance;
 use App\Services\InstanceService;
 use Illuminate\Console\Command;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewInstance;
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\search;
 use function Laravel\Prompts\select;
@@ -64,6 +65,14 @@ class ManageInstance extends Command
 
         $instance = Instance::updateOrCreate(['domain' => $domain]);
 
+        $email = text(
+            label: 'Enter email address',
+            validate: ['email' => 'required|email|unique:instances,email']
+        );
+
+        $instance->email = $email;
+        $instance->save();
+
         $supported = confirm('Is this instance supported?');
 
         if ($supported) {
@@ -86,6 +95,12 @@ class ManageInstance extends Command
         $this->info('Successfully created instance!');
         $this->info('Secret:');
         $this->info($instance->secret);
+
+        $supported = confirm('Do you want to send a welcome email?');
+
+        if($supported) {
+            Mail::to($instance->email)->send(new NewInstance($instance));
+        }
     }
 
     protected function readTask()
