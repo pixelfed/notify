@@ -27,8 +27,8 @@ class NewInstance extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('no-reply@push.pixelfed.net', 'Pixelfed Push Gateway'),
-            subject: 'New Instance Application',
+            from: new Address('no-reply@push.pixelfed.net', 'Pixelfed.net'),
+            subject: 'Pixelfed Push Notification API Key - App ID [' . $this->instance->id .' - ' . $this->instance->domain . ']',
         );
     }
 
