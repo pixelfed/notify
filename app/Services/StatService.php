@@ -10,11 +10,11 @@ class StatService
 
     public static function increment($id)
     {
-        return Redis::incr(self::COUNTER_KEY . $id);
+        return Redis::incr(self::COUNTER_KEY.$id);
     }
 
     public static function get($id)
     {
-        return Redis::get(self::COUNTER_KEY . $id);
+        return Redis::get(self::COUNTER_KEY.$id);
     }
 }

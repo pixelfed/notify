@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RelayV1Request;
 use App\Services\IngestCachePoolService;
-use App\Services\NotifyMessageService;
 use App\Services\InstanceService;
+use App\Services\NotifyMessageService;
 use App\Services\StatService;
 
 class RelayV1Controller extends Controller
@@ -16,7 +16,7 @@ class RelayV1Controller extends Controller
 
         $entity = InstanceService::getEntityFromKey($request->bearerToken());
 
-        if(!$entity) {
+        if (! $entity) {
             return;
         }
 
