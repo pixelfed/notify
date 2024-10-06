@@ -17,6 +17,10 @@ class InstanceService
 
     const CACHE_DOMAINS_KEY = 'pn:services:instance:active-domains';
 
+    const CACHE_DOMAIN_PAIRS_KEY = 'pn:services:instance:active-domains-pairs';
+
+    const CACHE_DOMAIN_PAIRS_ENTITY = 'pn:services:instance:active-domains-pairs:entity:';
+
     public static function getKeys()
     {
         return Cache::remember(self::CACHE_SECRET_KEY, 86400, function () {
@@ -27,14 +31,57 @@ class InstanceService
     public static function clearKeys()
     {
         Cache::forget(self::CACHE_SECRET_KEY);
+        Cache::forget(self::CACHE_DOMAIN_PAIRS_KEY);
+
+        foreach(Instance::get() as $instance) {
+            Cache::forget(self::CACHE_DOMAIN_PAIRS_ENTITY . $instance->id);
+        }
 
         return self::getKeys();
+    }
+
+    public static function getDomainKeyPairs()
+    {
+        return Cache::remember(self::CACHE_DOMAIN_PAIRS_KEY, 86400, function() {
+            return Instance::whereNotNull('secret')
+                ->whereIsSupported(true)
+                ->whereIsAllowed(true)
+                ->get()
+                ->map(function($instance) {
+                    if(!$instance->secret || !$instance->domain) {
+                        return false;
+                    }
+                    return [
+                        'id' => $instance->id,
+                        'domain' => $instance->domain,
+                        'token' => $instance->secret
+                    ];
+                })
+                ->filter()
+                ->toArray();
+        });
+    }
+
+    public static function getEntityFromKey($id)
+    {
+        return Cache::remember(self::CACHE_DOMAIN_PAIRS_ENTITY . $id, 86400, function() use($id) {
+            $keys = self::getDomainKeyPairs();
+            if(!$keys || !count($keys)) {
+                return;
+            }
+            $col = collect($keys);
+
+            return $col->filter(function($item) use($id) {
+                return $item['token'] === $id;
+            })->first();
+        });
     }
 
     public static function getActiveDomains($flush = false)
     {
         if ($flush) {
             Cache::forget(self::CACHE_DOMAINS_KEY);
+            Cache::forget(self::CACHE_DOMAIN_PAIRS_KEY);
         }
 
         return Cache::remember(self::CACHE_DOMAINS_KEY, 86400, function () {

@@ -14,15 +14,19 @@ class RelayV1Controller extends Controller
     {
         abort_unless($this->isValidExpoPushToken($request->token), 422, 'Invalid push token');
 
+        $entity = InstanceService::getEntityFromKey($request->bearerToken());
+
+        if(!$entity) {
+            return;
+        }
+
         $payload = [
             'token' => $request->token,
+            'domain' => $entity['domain'],
             'message' => NotifyMessageService::get($request->input('type'), $request->input('actor')),
         ];
         IngestCachePoolService::push($payload);
-        $id = InstanceService::idFromKey($request->bearerToken());
-        if($id) {
-            StatService::increment($id);
-        }
+        StatService::increment($entity['id']);
 
         return response()->json(['status' => 200]);
     }

@@ -76,10 +76,11 @@ class ProcessNotifications extends Command
             return;
         }
         $messages = array_map(function ($notification) {
+            $title = isset($notification['domain']) ? 'Pixelfed (' . $notification['domain'] . ')' : 'Pixelfed';
             return [
                 'to' => $notification['token'],
                 'sound' => 'default',
-                'title' => 'Pixelfed',
+                'title' => $title,
                 'ttl' => config('custom.expo_ttl', 1209600),
                 'priority' => config('custom.expo_priority', 'high'),
                 'badge' => 0,
