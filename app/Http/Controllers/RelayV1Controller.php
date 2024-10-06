@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RelayV1Request;
 use App\Services\IngestCachePoolService;
 use App\Services\NotifyMessageService;
+use App\Services\InstanceService;
+use App\Services\StatService;
 
 class RelayV1Controller extends Controller
 {
@@ -17,6 +19,10 @@ class RelayV1Controller extends Controller
             'message' => NotifyMessageService::get($request->input('type'), $request->input('actor')),
         ];
         IngestCachePoolService::push($payload);
+        $id = InstanceService::idFromKey($request->bearerToken());
+        if($id) {
+            StatService::increment($id);
+        }
 
         return response()->json(['status' => 200]);
     }

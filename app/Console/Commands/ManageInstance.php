@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Mail\NewInstance;
 use App\Models\Instance;
 use App\Services\InstanceService;
+use App\Services\StatService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
@@ -116,7 +117,7 @@ class ManageInstance extends Command
         $instance = Instance::find($id);
 
         table(
-            headers: ['Id', 'Domain', 'Supported', 'Allowed', 'Last Checked'],
+            headers: ['Id', 'Domain', 'Supported', 'Allowed', 'Last Checked', 'Total Sent'],
             rows: [
                 [
                     'Id' => $instance->id,
@@ -124,6 +125,7 @@ class ManageInstance extends Command
                     'Supported' => $instance->is_supported ? 'Yes' : 'No',
                     'Allowed' => $instance->is_allowed ? 'Yes' : 'No',
                     'Last Checked' => $instance->instance_last_checked_at ? $instance->instance_last_checked_at->format('c') : 'never',
+                    'Total Sent' => StatService::get($instance->id) ?? 0,
                 ],
             ]
         );

@@ -109,6 +109,16 @@ class InstanceService
             }
     }
 
+    public static function idFromKey($key)
+    {
+        if (preg_match('/v1:\d{4}(0*\d+):/', $key, $matches)) {
+            $instanceId = ltrim($matches[1], '0');
+            return $instanceId;
+        }
+
+        return null;
+    }
+
     public static function keyGenerator(Instance $instance)
     {
         return 'v1:'.date('ym').str_pad($instance->id, 5, '0', STR_PAD_LEFT).':'.Str::random(32);
